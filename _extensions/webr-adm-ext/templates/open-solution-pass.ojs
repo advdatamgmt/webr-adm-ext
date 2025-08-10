@@ -1,0 +1,21 @@
+const {{exercise}} = document.querySelector('.cell[data-exercise="{{exercise}}"]');
+
+const open_{{exercise}}_solution = (mutationList, observer) => {
+  for (const mutation of mutationList) {
+    if (mutation.type === "childList") {
+      const btns = mutation.
+        target.
+        querySelectorAll('a.btn:has(> .btn-label-exercise-editor)')
+
+      for (const b of btns) {
+        if (b.textContent.includes("Hint") ||
+            b.textContent.includes("Solution")) {
+          b.click();
+        }
+      }
+    }
+  }
+};
+
+const {{exercise}}_observer = new MutationObserver(open_{{exercise}}_solution);
+{{exercise}}_observer.observe({{exercise}}, { attributes: false, childList: true, subtree: true });
