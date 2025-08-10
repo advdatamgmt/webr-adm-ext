@@ -1,0 +1,8 @@
+---
+title: "Webr-adm-ext example"
+filters:
+  - webr-adm-ext
+---
+
+This filter opens an div or exercise solution depending on the
+outcome of an exercise.
