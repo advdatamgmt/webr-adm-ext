@@ -45,6 +45,7 @@ end
 
 local live = load_r_wasm_helpers()
 local ParseBlock = live.ParseBlock
+local WebRCodeBlock = live.WebRCodeBlock
 
 function CodeBlock(block)
   if (
@@ -86,6 +87,15 @@ function AdmCodeBlock(block)
         "open-on-pass-" .. pblock.attr.exercise,
         { 'webr-adm-ext' },
         { style = 'visibility: hidden;' }
+      )
+    )
+  elseif (pblock.attr.type == 'progress-submit') then
+    out = pandoc.Div(
+      WebRCodeBlock(pblock.code),
+      pandoc.Attr(
+        "adm-progress-submit",
+        {},
+        { style = 'visibility: hidden; max-height: 0;' }
       )
     )
   end

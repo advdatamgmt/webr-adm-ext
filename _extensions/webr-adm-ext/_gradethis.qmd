@@ -5,12 +5,7 @@
 # adds the capability to record progress
 webr::install("gradethis", quiet = TRUE)
 library(gradethis)
-.webr_progress <- data.frame(
-  label = character(),
-  user_code = character(),
-  solution_code = character(),
-  result = logical()
-)
+.webr_progress <- data.frame(label = character(), user_code = character(), solution_code = character(), result = logical())
 options(webr.exercise.checker = function(
   label, user_code, solution_code, check_code, envir_result, evaluate_result,
   envir_prep, last_value, engine, stage, ...
@@ -45,11 +40,11 @@ options(webr.exercise.checker = function(
       last_value = last_value, stage = stage, engine = engine)
     .webr_progress <<- rbind(
       .webr_progress,
-        data.frame(
+      data.frame(
         label = label,
         user_code = user_code,
         solution_code = solution_code,
-        result = isTRUE(res$correct)
+        result = res$correct
       )
     )
     res
