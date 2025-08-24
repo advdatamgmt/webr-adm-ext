@@ -78,13 +78,16 @@ function AdmCodeBlock(block)
 
   quarto.doc.include_text("after-body", content)
 
-  local out = pandoc.Div(
-    pandoc.read(pblock.code).blocks,
-    pandoc.Attr(
-      "open-on-pass-" .. pblock.attr.exercise,
-      { 'webr-adm-ext' },
-      { style = 'visibility: hidden;' }
+  local out = {}
+  if (pblock.attr.type == 'open-on-pass') then
+    out = pandoc.Div(
+      pandoc.read(pblock.code).blocks,
+      pandoc.Attr(
+        "open-on-pass-" .. pblock.attr.exercise,
+        { 'webr-adm-ext' },
+        { style = 'visibility: hidden;' }
+      )
     )
-  )
+  end
   return out
 end
