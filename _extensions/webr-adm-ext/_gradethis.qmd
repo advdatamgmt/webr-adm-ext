@@ -1,0 +1,58 @@
+```{webr}
+#| edit: false
+#| output: false
+# from r-wasm/live/_gradethis.qmd
+# adds the capability to record progress
+webr::install("gradethis", quiet = TRUE)
+library(gradethis)
+.webr_progress <- data.frame(
+  label = character(),
+  user_code = character(),
+  solution_code = character(),
+  result = logical()
+)
+options(webr.exercise.checker = function(
+  label, user_code, solution_code, check_code, envir_result, evaluate_result,
+  envir_prep, last_value, engine, stage, ...
+) {
+  if (is.null(check_code)) {
+    # No grading code, so just skip grading
+    invisible(NULL)
+  } else if (is.null(label)) {
+    list(
+      correct = FALSE,
+      type = "warning",
+      message = "All exercises must have a label."
+    )
+  } else if (is.null(solution_code)) {
+    list(
+      correct = FALSE,
+      type = "warning",
+      message = htmltools::tags$div(
+        htmltools::tags$p("A problem occurred grading this exercise."),
+        htmltools::tags$p(
+          "No solution code was found. Note that grading exercises using the ",
+          htmltools::tags$code("gradethis"),
+          "package requires a model solution to be included in the document."
+        )
+      )
+    )
+  } else {
+    res <- gradethis::gradethis_exercise_checker(
+      label = label, solution_code = solution_code, user_code = user_code,
+      check_code = check_code, envir_result = envir_result,
+      evaluate_result = evaluate_result, envir_prep = envir_prep,
+      last_value = last_value, stage = stage, engine = engine)
+    .webr_progress <<- rbind(
+      .webr_progress,
+        data.frame(
+        label = label,
+        user_code = user_code,
+        solution_code = solution_code,
+        result = isTRUE(res$correct)
+      )
+    )
+    res
+  }
+})
+```
