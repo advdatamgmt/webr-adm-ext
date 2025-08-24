@@ -1,0 +1,11 @@
+<script>
+const ee = document.querySelector('.cell[data-exercise]');
+
+const prog_sub = (mutationList, observer) =>{
+  // const obj = await webR.evalR('.webr_progress');
+  console.log("hi");
+};
+
+const prog_sub_observer = new MutationObserver(prog_sub_obs);
+prog_sub_observer.observe(ee, { attributes: false, childList: true, subtree: true });
+</script>
