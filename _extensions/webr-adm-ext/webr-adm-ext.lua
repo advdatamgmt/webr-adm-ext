@@ -3,7 +3,7 @@
 local function load_r_wasm_helpers()
   local rwasm = quarto.utils.resolve_path("../../r-wasm/live/live.lua")
 
-  -- Make a sandbox env with access to core globals Quarto/Pandoc APIs
+  -- Make a sandbox env with access to core Quarto/Pandoc APIs
   local live_env = {
     quarto = quarto,
     pandoc = pandoc,
@@ -45,7 +45,6 @@ end
 
 local live = load_r_wasm_helpers()
 local ParseBlock = live.ParseBlock
-local WebRCodeBlock = live.WebRCodeBlock
 
 function CodeBlock(block)
   if (
@@ -87,15 +86,6 @@ function AdmCodeBlock(block)
         "open-on-pass-" .. pblock.attr.exercise,
         { 'webr-adm-ext' },
         { style = 'visibility: hidden;' }
-      )
-    )
-  elseif (pblock.attr.type == 'progress-submit') then
-    out = pandoc.Div(
-      WebRCodeBlock(pblock.code),
-      pandoc.Attr(
-        "adm-progress-submit",
-        {},
-        { style = 'visibility: hidden; max-height: 0;' }
       )
     )
   end
